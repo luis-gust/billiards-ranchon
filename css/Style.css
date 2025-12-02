@@ -1,0 +1,340 @@
+:root{
+    /* Breakfast tea color palette */
+    --bt-bg: #FBF7F2;          /* soft cream */
+    --bt-surface: #F0E8DD;     /* light tea beige (main panels) */
+    --bt-sidebar: #EBD7BA;     /* sidebar / header background */
+    --bt-accent: #C47A3B;      /* warm tea amber (accent / price) */
+    --bt-accent-dark: #8C5A35; /* darker accent */
+    --bt-text: #2E2A26;        /* main text (dark brown) */
+    --bt-muted: #8F7C6B;       /* muted brown for secondary text */
+    --bt-border: rgba(46,42,38,0.12);
+    --sidebar-width: 12rem; /* ancho por defecto del sidebar */
+    --sidebar-width-mobile: 4.5rem; /* ancho en móvil */
+    --sidebar-offset: var(--sidebar-width); /* offset real del sidebar (actualizado por JS) */
+    /* site icon sizes responsivas: ajusta estos valores para cambiar el tamaño del icono */
+    --site-icon-size: 24px; /* tamaño del icono en desktop (cambia aquí si quieres más grande/pequeño) */
+    --site-icon-size-mobile: 20px; /* tamaño del icono en móvil */
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+}
+
+/* Global background and text color */
+body {
+    background: var(--bt-bg);
+    color: var(--bt-text);
+    padding-left: var(--sidebar-width); /* reservar el espacio del header fijo */
+}
+
+/* Header (sidebar) background using palette */
+header {
+    background: var(--bt-sidebar);
+    box-shadow: 2px 0 8px var(--bt-border);
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--sidebar-width);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1rem;
+    z-index: 1000;
+}
+
+.enunciados {
+    font-size: 1.1rem;
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+}
+
+
+
+/* Titulos principales de seccion */
+h2.title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.0rem; /* un poco más grande */
+    margin: 0 0 0.5rem 0;
+}
+
+/* Productos (subtítulos) ligeramente más pequeños */
+h3.productos {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    margin: 0.25rem 0;
+    font-weight: 600;
+}
+
+/* Especificaciones de productos (texto secundario) */
+p.especificaciones {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem; /* más pequeño que h3.productos (1.15rem) */
+    color: #777777; /* gris claro */
+    font-weight: 400;
+    margin: 0.15rem 0 0.75rem 0; /* un poco de separación debajo */
+    line-height: 1.4;
+    opacity: 0.95;
+}
+
+/* El índice como filas debajo del h1 */
+#indice {
+    display: flex;
+    flex-direction: column; /* filas verticales */
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.menu_indice {
+    display: block;
+    padding: 0.45rem 0.6rem;
+    text-align: center;
+    color: #111;
+    text-decoration: none;
+    border-radius: 6px;
+    position: relative;
+    transition: transform 200ms ease, background-color 200ms ease, color 200ms ease;
+}
+.menu_indice:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+/* Estilos para el elemento del menú activo (scroll-spy) */
+.menu_indice.active {
+    background-color: rgba(0,0,0,0.06);
+    color: #000;
+    transform: translateX(4px) scale(1.02);
+    font-weight: 700;
+}
+
+.menu_indice.active::after {
+    transform: scaleX(1);
+}
+
+/* Redes sociales al final del header */
+#redes{
+    margin-top: auto; /* empuja al final del header */
+    display: block;
+    text-align: center;
+    padding: 0.5rem;
+    text-decoration: underline; /* subrayado permanente */
+    text-decoration-color: var(--bt-accent-dark);
+    text-decoration-thickness: 1.5px;
+    text-decoration-style: solid;
+    color: var(--bt-text);
+    border-radius: 6px;
+    margin-bottom: 1.25rem; /* espacio inferior para separar del borde */
+}
+#redes:hover{
+    background: rgba(196,122,59,0.08);
+}
+
+/* Main desplazado a la derecha para no quedar debajo del header lateral */
+.main {
+    /* margin-left removed: usamos body padding-left para el desplazamiento */
+    padding: 1.5rem 2rem;
+    background: var(--bt-surface);
+    min-height: 100vh;
+    border-left: 1px solid var(--bt-border);
+    border-radius: 10px;
+    margin-bottom: 1.5rem; /* separa ligeramente .main del footer */
+    padding-bottom: 2rem; /* espacio extra al final del contenido para evitar solapamientos visuales */
+}
+
+/* Asegurar que .main y .footer no tengan margin-left residual que se sume al padding-left del body */
+body > .main, body > .footer, .main, .footer {
+    margin-left: 0 !important;
+    box-sizing: border-box;
+    width: auto !important; /* evitar rules que establezcan widths basadas en calc con sidebar */
+}
+
+/* Reemplazo: usar grid para asegurar que el precio quede a la derecha y los puntos ocupen el espacio intermedio */
+.productos {
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* nombre | puntos | precio */
+    align-items: center;
+    column-gap: 0.6rem;
+}
+
+.productos .nombre {
+    font-weight: 600;
+}
+
+.productos .precio {
+    justify-self: end; /* fuerza al precio al extremo derecho de la celda */
+    white-space: nowrap;
+    color: var(--bt-accent-dark);
+    font-weight: 700;
+}
+
+
+.brand h1{
+    margin:0;
+    font-size:1.05rem;
+    white-space:nowrap;
+    flex: 1 1 auto; /* permitir que el título ocupe el espacio disponible */
+    text-align: left; /* asegurar alineación a la izquierda dentro del brand */
+    line-height: 1; /* mejor alineación vertical con el icono */
+}
+
+.site-icon{
+    width: var(--site-icon-size);
+    height: var(--site-icon-size);
+    flex: 0 0 var(--site-icon-size);
+    object-fit: contain;
+    border-radius: 6px; /* pequeño acabado */
+}
+
+@media (max-width: 700px) {
+    /* cuando el header se hace más estrecho en móvil, desplazar el contenido usando padding-left */
+    body {
+        padding-left: var(--sidebar-width-mobile);
+    }
+
+    header {
+        position: fixed; /* seguir fijo a la izquierda */
+        width: var(--sidebar-width-mobile);
+        padding: 0.5rem 0.25rem;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    header h1 {
+        font-size: 0.9rem;
+        writing-mode: vertical-rl; /* opcional: texto vertical para ahorrar espacio */
+        transform: rotate(180deg);
+        margin-bottom: 0.25rem;
+    }
+
+    /* Mostrar el índice como columna compacta (botones pequeños) */
+    #indice {
+        gap: 0.25rem;
+        margin-top: 0;
+    }
+
+    .menu_indice {
+        padding: 0.35rem 0.25rem;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* redes más compactas */
+    #redes{
+        padding: 0.35rem 0.25rem;
+        font-size: 0.75rem;
+    }
+
+    /* Main desplazado según ancho móvil del sidebar */
+    .main {
+        padding: 1rem;
+        /* no margin-left here either */
+    }
+
+    .productos {
+        grid-template-columns: auto 1fr auto;
+    }
+    .productos .puntos {
+        background-size: 6px 1px;
+    }
+
+    .footer {
+        padding: 1rem;
+        /* footer tampoco usa margin-left en móvil */
+    }
+
+
+    .site-icon{
+        width: var(--site-icon-size-mobile);
+        height: var(--site-icon-size-mobile);
+        flex: 0 0 var(--site-icon-size-mobile);
+    }
+}
+
+/* Footer: centrado, distinto del resto y no se sitúa debajo del header */
+.footer {
+    /* quitar margin-left/width: el body ya reserva el espacio del sidebar */
+    padding: 2rem 1.25rem;
+    background: transparent; /* background moved to pseudo-element for full-bleed */
+    color: #2E2A26; /* texto oscuro sobre fondo claro suave */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top: 2px solid rgba(46,42,38,0.08);
+    box-shadow: 0 -6px 20px rgba(46,42,38,0.03);
+    z-index: 1; /* menor que header (header tiene z-index:1000) */
+    position: relative; /* para que el ::before se posicione dentro de la caja */
+}
+
+/* Pseudo-elemento que pinta el fondo del footer en full-bleed (izquierda compensa el sidebar) */
+.footer::before{
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--sidebar-offset)); /* extender hacia la izquierda hasta el borde de la ventana */
+    right: 0; /* llegar al borde derecho */
+    top: 0.5rem; /* no cubrir la parte superior del footer: dejar un pequeño espacio */
+    bottom: 0; /* pegar abajo al final del footer */
+    background: linear-gradient(180deg, rgba(20,18,16,0.03) 0%, rgba(46,42,38,0.02) 50%, rgba(196,122,59,0.06) 100%);
+    z-index: -1; /* detrás del contenido del footer */
+}
+
+/* Contenedor interno para limitar ancho y centrar contenido */
+.footer .container {
+    max-width: 1100px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 1rem;
+}
+
+.footer h4, .footer p, .footer nav {
+    margin: 0;
+}
+
+.footer h4.title {
+    color: var(--bt-accent-dark);
+    font-weight: 700;
+}
+
+.footer p {
+    color: var(--bt-muted);
+}
+
+.footer nav {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer a {
+    color: var(--bt-accent-dark);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 600;
+}
+
+.footer a:hover {
+    opacity: 0.95;
+    transform: translateY(-2px);
+    transition: transform 150ms ease, opacity 150ms ease;
+}
+
+/* Barra inferior separada para tecnologías o créditos */
+.footer .credits {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding-top: 0.6rem;
+    border-top: 1px dashed rgba(46,42,38,0.04);
+    color: var(--bt-muted);
+    font-size: 0.9rem;
+}
