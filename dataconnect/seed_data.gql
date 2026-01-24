@@ -1,0 +1,94 @@
+mutation CreateDemoData @transaction @auth(level: USER) {
+  restaurant_insertMany(data: [
+    {
+      id: "550e8400-e29b-41d4-a716-446655440000",
+      name: "Demo Restaurant 1",
+      address: "123 Main St",
+      email: "demo1@example.com",
+      phone: "555-1234",
+      description: "Example restaurant 1",
+      createdAt: "2024-01-01T00:00:00Z"
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440001",
+      name: "Demo Restaurant 2",
+      address: "456 Elm St",
+      email: "demo2@example.com",
+      phone: "555-5678",
+      description: "Example restaurant 2",
+      createdAt: "2024-01-02T00:00:00Z"
+    }
+  ])
+  category_insertMany(data: [
+    {
+      id: "650e8400-e29b-41d4-a716-446655440000",
+      restaurantId: "550e8400-e29b-41d4-a716-446655440000",
+      name: "Appetizers",
+      description: "Delicious starters",
+      order: 1
+    },
+    {
+      id: "650e8400-e29b-41d4-a716-446655440001",
+      restaurantId: "550e8400-e29b-41d4-a716-446655440000",
+      name: "Main Courses",
+      description: "Entrees",
+      order: 2
+    }
+  ])
+  menuItem_insertMany(data: [
+    {
+      id: "750e8400-e29b-41d4-a716-446655440000",
+      categoryId: "650e8400-e29b-41d4-a716-446655440000",
+      name: "Nachos",
+      description: "Cheese and jalapenos",
+      price: 9.99,
+      imageUrl: "http://example.com/nachos.jpg",
+      inStock: true,
+      createdAt: "2024-01-03T00:00:00Z"
+    },
+    {
+      id: "750e8400-e29b-41d4-a716-446655440001",
+      categoryId: "650e8400-e29b-41d4-a716-446655440001",
+      name: "Steak",
+      description: "Ribeye",
+      price: 29.99,
+      imageUrl: "http://example.com/steak.jpg",
+      inStock: true,
+      createdAt: "2024-01-04T00:00:00Z"
+    }
+  ])
+  modifierGroup_insertMany(data: [
+    {
+      id: "850e8400-e29b-41d4-a716-446655440000",
+      restaurantId: "550e8400-e29b-41d4-a716-446655440000",
+      name: "Steak Temperature",
+      minSelection: 1,
+      maxSelection: 1
+    }
+  ])
+  modifier_insertMany(data: [
+    {
+      modifierGroupId: "850e8400-e29b-41d4-a716-446655440000",
+      id: "950e8400-e29b-41d4-a716-446655440000",
+      name: "Rare",
+      priceAdjustment: 0.00
+    },
+    {
+      modifierGroupId: "850e8400-e29b-41d4-a716-446655440001",
+      id: "950e8400-e29b-41d4-a716-446655440001",
+      name: "Medium Rare",
+      priceAdjustment: 0.00
+    }
+  ])
+  specialOffer_insertMany(data: [
+    {
+      menuItemId: "750e8400-e29b-41d4-a716-446655440000",
+      id: "a50e8400-e29b-41d4-a716-446655440000",
+      description: "Discount nachos",
+      specialPrice: 7.99,
+      isActive: true,
+      startDate: "2024-01-05T00:00:00Z",
+      endDate: "2024-01-10T00:00:00Z"
+    }
+  ])
+}

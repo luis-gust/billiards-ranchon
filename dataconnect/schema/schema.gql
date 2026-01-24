@@ -1,0 +1,47 @@
+type Restaurant @table {
+  name: String!
+  createdAt: Timestamp!
+  address: String
+  phone: String
+  email: String
+  description: String
+}
+
+type Category @table {
+  restaurant: Restaurant!
+  name: String!
+  order: Int!
+  description: String
+}
+
+type MenuItem @table {
+  category: Category!
+  name: String!
+  price: Float!
+  createdAt: Timestamp!
+  description: String
+  imageUrl: String
+  inStock: Boolean
+}
+
+type SpecialOffer @table {
+  menuItem: MenuItem!
+  specialPrice: Float!
+  startDate: Timestamp!
+  endDate: Timestamp!
+  description: String
+  isActive: Boolean
+}
+
+type ModifierGroup @table {
+  restaurant: Restaurant!
+  name: String!
+  minSelection: Int!
+  maxSelection: Int!
+}
+
+type Modifier @table {
+  modifierGroup: ModifierGroup!
+  name: String!
+  priceAdjustment: Float!
+}

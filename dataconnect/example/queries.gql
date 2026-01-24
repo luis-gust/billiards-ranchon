@@ -1,0 +1,29 @@
+mutation CreateRestaurant($name: String!, $email: String, $phone: String, $address: String, $description: String) @auth(level: USER) {
+  restaurant_insert(data: {name: $name, email: $email, phone: $phone, address: $address, description: $description, createdAt_expr: "request.time"})
+}
+
+query GetMenuItemsByCategory($categoryId: UUID!) @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  menuItems(where: {categoryId: {eq: $categoryId}, inStock: {eq: true}}) {
+    id
+    name
+    description
+    price
+    imageUrl
+  }
+}
+
+mutation UpdateMenuItemPrice($id: UUID!, $price: Float!) @auth(level: USER) {
+  menuItem_update(key: {id: $id}, data: {price: $price})
+}
+
+query ListSpecialOffers @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  specialOffers(where: {isActive: {eq: true}, endDate: {gt_expr: "request.time"}}) {
+    id
+    description
+    specialPrice
+    menuItem {
+      id
+      name
+    }
+  }
+}

@@ -11,5 +11,9 @@
   "devDependencies": {
     "prettier": "^3.3.1",
     "vite": "^5.1.6"
+  },
+  "dependencies": {
+    "@dataconnect/generated": "file:src/dataconnect-generated",
+    "firebase": "^12.8.0"
   }
 }

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/png" href="img/black-snooker-number-eight-file-free-png.png"/>
+    <link rel="stylesheet" href="css/Style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Billiards Ranchón</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@400;700&display=swap"
+          rel="stylesheet">
+</head>
+<body class="body_menu">
+
+<header>
+    <div class="brand">
+        <h1 class="enunciados">Billiards Ranchón<img class="site-icon"
+                                                     src="img/black-snooker-number-eight-file-free-png.png"
+                                                     alt="Icono KIKE'S"/></h1>
+    </div>
+    <section id="indice" class="indice">
+        <a class="menu_indice" href="#tapas">TAPAS</a>
+        <a class="menu_indice" href="#bebidas">BEBIDAS</a>
+        <a class="menu_indice" href="#postres">POSTRES</a>
+    </section>
+
+    <a id="redes" href="#footer">Redes Sociales</a>
+</header>
+<div class="main">
+    <section id="tapas" class="tapas">
+    </section>
+    <section id="bebidas" class="bebidas">
+    </section>
+    <section id="postres" class="postres">
+    </section>
+</div>
+<footer id="footer" class="footer">
+    <h2 class="title">Gracias por su visita!!</h2>
+
+    <h3 class="productos"><img src="img/phone-svgrepo-com.svg" alt="Teléfono" class="icon-phone" /> +53 59670883</h3>
+    <p class="especificaciones">Mólviles para contactar, haga sus reservaciones aquí</p>
+
+    <nav>
+        <a href="index.html">Instagram</a>
+        <a href="#tapas">Faceboock</a>
+        <a href="#bebidas">Whatsapp</a>
+    </nav>
+    <!-- Botón de configuración (icono) colocado en el header para mayor accesibilidad -->
+    <button id="btn-open-login" class="button" aria-label="Abrir formulario de login" title="Configuración / Login" style="display:block; margin:0.25rem auto 0.5rem; padding:6px;">
+        <!-- Icono de configuración como archivo SVG -->
+        <img src="img/settings-minimalistic-svgrepo-com.svg" alt="Configuración" class="site-icon" style="width:18px; height:18px; display:inline-block; vertical-align:middle;" />
+    </button>
+</footer>
+
+<div id="modal-login" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-login-title">
+        <button class="modal-close" id="modal-login-close" aria-label="Cerrar">×</button>
+        <h2 id="modal-login-title">Iniciar sesión <img src="img/login-3-svgrepo-com.svg" alt="Login" class="modal-title-icon" /></h2>
+        <form id="login-form" class="form-insert" action="manager.html" method="post" autocomplete="off">
+            <input type="hidden" id="login_editing_id" value="">
+            <div class="form-row">
+                <label for="input_name">
+                    <input id="input_name" name="email" type="email" placeholder="Ingresa tu Email" required>
+                </label>
+                <span class="error_msg" id="error_name"></span>
+            </div>
+
+            <div class="form-row">
+                <label for="input_pas">
+                    <input id="input_pas" name="password" type="password" placeholder="Ingresa tu Contraseña" required>
+                </label>
+            </div>
+
+            <div class="actions">
+                <button type="button" class="button" id="login-cancel">Cancelar</button>
+                <input type="submit" class="button" id="login-submit" value="Iniciar Sesión">
+            </div>
+        </form>
+    </div>
+</div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
