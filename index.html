@@ -13,14 +13,18 @@
 
 <header>
     <div class="brand">
-        <h1 class="enunciados">Billiards Ranchón<img class="site-icon"
-                                                     src="img/black-snooker-number-eight-file-free-png.png"
-                                                     alt="Icono KIKE'S"/></h1>
+        <h1 class="enunciados">Billiards Ranchón</h1>
     </div>
     <section id="indice" class="indice">
-        <a class="menu_indice" href="#tapas">TAPAS</a>
-        <a class="menu_indice" href="#bebidas">BEBIDAS</a>
-        <a class="menu_indice" href="#postres">POSTRES</a>
+        <a class="menu_indice" href="#tapas" title="Tapas">
+            <img src="img/pizza-slice-svgrepo-com.svg" alt="Tapas" class="indice-icon">
+        </a>
+        <a class="menu_indice" href="#bebidas" title="Bebidas">
+            <img src="img/wine-glass-lemon-svgrepo-com.svg" alt="Bebidas" class="indice-icon">
+        </a>
+        <a class="menu_indice" href="#postres" title="Postres">
+            <img src="img/ice-cream-svgrepo-com.svg" alt="Postres" class="indice-icon">
+        </a>
     </section>
 
     <a id="redes" href="#footer">Redes Sociales</a>
@@ -36,19 +40,27 @@
 <footer id="footer" class="footer">
     <h2 class="title">Gracias por su visita!!</h2>
 
+    <p class="especificaciones">Mólvil para contactar, haga sus reservaciones aquí:</p>
     <h3 class="productos"><img src="img/phone-svgrepo-com.svg" alt="Teléfono" class="icon-phone" /> +53 59670883</h3>
-    <p class="especificaciones">Mólviles para contactar, haga sus reservaciones aquí</p>
 
-    <nav>
-        <a href="index.html">Instagram</a>
-        <a href="#tapas">Faceboock</a>
-        <a href="#bebidas">Whatsapp</a>
+
+    <nav class="redes-sociales-footer">
+        <a href="https://www.instagram.com/tu_usuario" target="_blank" aria-label="Instagram">
+            <img src="img/instagram-svgrepo-com.svg" alt="Instagram" class="icon-redes">
+        </a>
+        <a href="https://www.facebook.com/tu_pagina" target="_blank" aria-label="Facebook">
+            <img src="img/facebook-svgrepo-com.svg" alt="Facebook" class="icon-redes">
+        </a>
+        <a href="https://wa.me/tu_numero" target="_blank" aria-label="Whatsapp">
+            <img src="img/whatsapp-svgrepo-com.svg" alt="Whatsapp" class="icon-redes">
+        </a>
     </nav>
     <!-- Botón de configuración (icono) colocado en el header para mayor accesibilidad -->
-    <button id="btn-open-login" class="button" aria-label="Abrir formulario de login" title="Configuración / Login" style="display:block; margin:0.25rem auto 0.5rem; padding:6px;">
+    <button id="btn-open-login" class="" aria-label="Abrir formulario de login" title="Configuración / Login" style="display:block; margin:0.25rem auto 0.5rem; padding:6px;">
         <!-- Icono de configuración como archivo SVG -->
-        <img src="img/settings-minimalistic-svgrepo-com.svg" alt="Configuración" class="site-icon" style="width:18px; height:18px; display:inline-block; vertical-align:middle;" />
-    </button>
+        <img class="site-icon"
+             src="img/black-snooker-number-eight-file-free-png.png"
+             alt="Icono KIKE'S"/>    </button>
 </footer>
 
 <div id="modal-login" class="modal" aria-hidden="true">

@@ -1,41 +1,45 @@
+/* ==========================================================================
+   1. VARIABLES Y CONFIGURACIÓN GLOBAL
+   ========================================================================== */
 :root {
-    /*Paleta de colores*/
     --bt-bg: #FBF7F2;
     --bt-surface: #F0E8DD;
-    --bt-surface-opacity: #F0E8DD;
     --bt-sidebar: #EBD7BA;
     --bt-accent: rgb(227, 172, 137);
     --bt-accent-dark: rgb(189, 145, 113);
     --bt-text: #2E2A26;
     --bt-muted: #8F7C6B;
     --bt-border: rgba(46, 42, 38, 0.12);
-    /* ancho por defecto del sidebar */
+
     --sidebar-width: 12rem;
-    /* ancho en móvil */
     --sidebar-width-mobile: 4.5rem;
-    /* POR DEFECTO 0: solo se activará cuando exista el header */
-    --sidebar-offset: 0;
-    /* tamaño del icono en desktop (cambia aquí si quieres más grande/pequeño) */
-    --site-icon-size: 24px;
-    /* tamaño del icono en móvil */
-    --site-icon-size-mobile: 20px;
 }
 
 * {
     box-sizing: border-box;
-    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', Arial, sans-serif;
 }
 
-/* Global background  y color del texto */
-body {
+/* Solo aplicamos el padding lateral al body si estamos en el menú (index.html) */
+body.body_menu {
     background: var(--bt-bg);
     color: var(--bt-text);
-    /* reservar el espacio del header fijo solo si existe */
     padding-left: var(--sidebar-width);
+    line-height: 1.6;
 }
 
-/* Header (sidebar) */
+/* El gestor (manager.html) usa esta clase para no tener sidebar */
+body.main-container {
+    background: var(--bt-bg);
+    padding: 0;
+}
+
+/* ==========================================================================
+   2. ESTRUCTURA DE LAYOUT (SIDEBAR Y CONTENIDO)
+   ========================================================================== */
+
 header {
     background: var(--bt-sidebar);
     box-shadow: 2px 0 8px var(--bt-border);
@@ -46,621 +50,345 @@ header {
     width: var(--sidebar-width);
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-    padding: 1rem;
+    padding: 1.5rem 0.5rem;
     z-index: 1000;
-    /* activar offset cuando header existe */
-    --sidebar-offset: var(--sidebar-width);
-    overflow: hidden; /* asegurar que el SVG no sobresalga visualmente */
+    align-items: center;
 }
 
-.enunciados {
+.brand .enunciados {
+    font-family: 'Playfair Display', serif;
     font-size: 1.1rem;
     text-align: center;
-    font-family: 'Playfair Display', serif;
     font-weight: 700;
-}
-
-
-/* Titulos principales de seccion */
-h2.title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.0rem;
-    margin: 0 0 0.5rem 0;
-}
-
-/* Productos (subtítulos)  */
-h3.productos {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.8rem;
-    margin: 0.25rem 0;
-    font-weight: 600;
-}
-
-/* Especificaciones de productos (texto secundario) */
-p.especificaciones {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.75rem; /* más pequeño que h3.productos (1.15rem) */
-    color: #777777; /* gris claro */
-    font-weight: 400;
-    margin: 0.15rem 0 0.75rem 0; /* un poco de separación debajo */
-    line-height: 1.4;
-    opacity: 0.95;
-}
-
-/* El índice como filas debajo del h1 */
-#indice {
+    margin-bottom: 2rem;
+    color: var(--bt-text);
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-}
-
-.menu_indice {
-    display: block;
-    padding: 0.45rem 0.6rem;
-    text-align: center;
-    color: #111;
-    text-decoration: none;
-    border-radius: 6px;
-    position: relative;
-    transition: transform 200ms ease, background-color 200ms ease, color 200ms ease;
-}
-
-.menu_indice:hover {
-    background: rgba(0, 0, 0, 0.05);
-}
-
-.menu_indice.active {
-    background-color: rgba(0, 0, 0, 0.06);
-    color: #000;
-    transform: translateX(4px) scale(1.02);
-    font-weight: 700;
-}
-
-.menu_indice.active::after {
-    transform: scaleX(1);
-}
-
-/* Redes sociales al final del header */
-#redes {
-    margin-top: auto;
-    display: block;
-    text-align: center;
-    padding: 0.5rem;
-    text-decoration: underline;
-    text-decoration-color: var(--bt-accent-dark);
-    text-decoration-thickness: 1.5px;
-    text-decoration-style: solid;
-    color: var(--bt-text);
-    border-radius: 6px;
-    margin-bottom: 1.25rem;
-}
-
-#redes:hover {
-    background: rgba(196, 122, 59, 0.08);
-}
-
-.main {
-    padding: 1.5rem 2rem;
-    background: var(--bt-surface);
-    min-height: 100vh;
-    border-left: 1px solid var(--bt-border);
-    border-radius: 10px;
-    margin-bottom: 1.5rem;
-    padding-bottom: 2rem;
-
-}
-
-
-body > .main, body > .footer, .main, .footer {
-    margin-left: 0 !important;
-    box-sizing: border-box;
-    width: auto !important;
-}
-
-/* Reemplazo: usar grid para asegurar que el precio quede a la derecha y los puntos ocupen el espacio intermedio */
-.productos {
-    display: grid;
-    grid-template-columns: auto 1fr auto; /* nombre | puntos | precio */
     align-items: center;
-    column-gap: 0.6rem;
-}
-
-.productos .nombre {
-    font-weight: 600;
-}
-
-.productos .precio {
-    justify-self: end; /* fuerza al precio al extremo derecho de la celda */
-    white-space: nowrap;
-    color: var(--bt-accent-dark);
-    font-weight: 700;
-}
-
-
-.brand h1 {
-    margin: 0;
-    font-size: 1.05rem;
-    white-space: nowrap;
-    flex: 1 1 auto; /* permitir que el título ocupe el espacio disponible */
-    text-align: left; /* asegurar alineación a la izquierda dentro del brand */
-    line-height: 1; /* mejor alineación vertical con el icono */
+    gap: 10px;
 }
 
 .site-icon {
-    width: var(--site-icon-size);
-    height: var(--site-icon-size);
-    flex: 0 0 var(--site-icon-size);
-    object-fit: contain;
-    border-radius: 6px; /* pequeño acabado */
-}
-
-/* Icono de teléfono dentro de h3.productos: igual tamaño que el texto */
-.icon-phone {
-    /* altura igual a la fuente del elemento padre, anchura automática para mantener proporción */
-    height: 1em;
-    width: auto;
-    max-width: 1.2em; /* evita que crezca demasiado en casos atípicos */
-    vertical-align: middle; /* centrar con la línea del texto */
-    margin-right: 0.4rem;  /* separación entre icono y texto */
-    display: inline-block;
+    width: 32px;
+    height: 32px;
     object-fit: contain;
 }
 
-/* Icono junto al título del modal de login */
-.modal-title-icon {
-    height: 1em;      /* igual altura que el texto */
-    width: auto;
-    max-width: 1.2em;
-    vertical-align: middle;
-    margin-left: 0.5rem;
+.main {
+    padding: 2rem;
+    background: var(--bt-surface);
+    min-height: 100vh;
+    border-left: 1px solid var(--bt-border);
+}
+
+/* ==========================================================================
+   3. ELEMENTOS DEL MENÚ Y PRODUCTOS
+   ========================================================================== */
+
+h2.title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    margin: 2rem 0 1.5rem 0;
+    color: var(--bt-text);
+    border-bottom: 2px solid var(--bt-accent);
     display: inline-block;
+    padding-bottom: 5px;
 }
 
-/* Icono usado dentro de botones (ej. eliminar) */
-.icon-btn {
-    height: 1em;
-    width: auto;
-    vertical-align: middle;
-    display: inline-block;
+.producto {
+    margin-bottom: 1.5rem;
 }
 
-@media (max-width: 700px) {
-    /* cuando el header se hace más estrecho en móvil, desplazar el contenido usando padding-left */
-    body {
-        padding-left: var(--sidebar-width-mobile);
-    }
-
-    header {
-        position: fixed; /* seguir fijo a la izquierda */
-        width: var(--sidebar-width-mobile);
-        padding: 0.5rem 0.25rem;
-        gap: 0.5rem;
-        align-items: center;
-    }
-
-    header h1 {
-        font-size: 0.9rem;
-        writing-mode: vertical-rl; /* opcional: texto vertical para ahorrar espacio */
-        transform: rotate(180deg);
-        margin-bottom: 0.25rem;
-    }
-
-    /* Mostrar el índice como columna compacta (botones pequeños) */
-    #indice {
-        gap: 0.25rem;
-        margin-top: 0;
-    }
-
-    .menu_indice {
-        padding: 0.35rem 0.25rem;
-        font-size: 0.8rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    /* redes más compactas */
-    #redes {
-        padding: 0.35rem 0.25rem;
-        font-size: 0.75rem;
-    }
-
-    /* Main desplazado según ancho móvil del sidebar */
-    .main {
-        padding: 1rem;
-        /* no margin-left here either */
-    }
-
-    .productos {
-        grid-template-columns: auto 1fr auto;
-    }
-
-    .productos .puntos {
-        background-size: 6px 1px;
-    }
-
-    .footer {
-        padding: 1rem;
-        /* footer tampoco usa margin-left en móvil */
-    }
-
-
-    .site-icon {
-        width: var(--site-icon-size-mobile);
-        height: var(--site-icon-size-mobile);
-        flex: 0 0 var(--site-icon-size-mobile);
-    }
-}
-
-/* Footer: centrado, distinto del resto y no se sitúa debajo del header */
-.footer {
-    /* quitar margin-left/width: el body ya reserva el espacio del sidebar */
-    padding: 2rem 1.25rem;
-    background: transparent; /* background moved to pseudo-element for full-bleed */
-    color: #2E2A26; /* texto oscuro sobre fondo claro suave */
-    text-align: center;
+.producto-cabecera {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-top: 2px solid rgba(46, 42, 38, 0.08);
-    box-shadow: 0 -6px 20px rgba(46, 42, 38, 0.03);
-    z-index: 1; /* menor que header (header tiene z-index:1000) */
-    position: relative; /* para que el ::before se posicione dentro de la caja */
+    align-items: baseline;
+    gap: 10px;
 }
 
-/* Pseudo-elemento que pinta el fondo del footer en full-bleed (izquierda compensa el sidebar) */
-.footer::before {
-    content: '';
-    position: absolute;
-    left: calc(-1 * var(--sidebar-offset)); /* extender hacia la izquierda hasta el borde de la ventana */
-    right: 0; /* llegar al borde derecho */
-    top: 0.5rem; /* no cubrir la parte superior del footer: dejar un pequeño espacio */
-    bottom: 0; /* pegar abajo al final del footer */
-    background: linear-gradient(180deg, rgba(20, 18, 16, 0.03) 0%, rgba(46, 42, 38, 0.02) 50%, rgba(196, 122, 59, 0.06) 100%);
-    z-index: -1; /* detrás del contenido del footer */
+.producto-nombre {
+    flex-shrink: 0;
+    font-weight: 600;
 }
 
-/* Contenedor interno para limitar ancho y centrar contenido */
-.footer .container {
-    max-width: 1100px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0 1rem;
+.producto-puntos {
+    flex-grow: 1;
+    border-bottom: 2px dotted var(--bt-muted);
+    height: 12px;
+    opacity: 0.4;
 }
 
-.footer h4, .footer p, .footer nav {
-    margin: 0;
-}
-
-.footer h4.title {
+.precio {
+    flex-shrink: 0;
     color: var(--bt-accent-dark);
     font-weight: 700;
 }
 
-.footer p {
+.especificaciones {
+    font-size: 0.85rem;
     color: var(--bt-muted);
+    margin-top: 0.2rem;
 }
 
-.footer nav {
-    display: flex;
-    gap: 0.6rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+/* FIX: Icono de teléfono del mismo tamaño que el texto */
+.icon-phone {
+    height: 1em;
+    width: auto;
+    vertical-align: middle;
+    margin-right: 5px;
 }
 
-.footer a {
-    color: var(--bt-accent-dark);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    font-weight: 600;
-}
+/* ==========================================================================
+   4. NAVEGACIÓN Y REDES SIDEBAR
+   ========================================================================== */
 
-.footer a:hover {
-    opacity: 0.95;
-    transform: translateY(-2px);
-    transition: transform 150ms ease, opacity 150ms ease;
-}
-
-/* Barra inferior separada para tecnologías o créditos */
-.footer .credits {
-    width: 100%;
-    margin-top: 0.5rem;
-    padding-top: 0.6rem;
-    border-top: 1px dashed rgba(46, 42, 38, 0.04);
-    color: var(--bt-muted);
-    font-size: 0.9rem;
-}
-
-/* css */
-.login {
-    /* Centrado absoluto en pantalla (por defecto, útil en páginas sin header como login.html) */
-    padding-inline-start: var(--sidebar-offset);
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: min(800px, calc(100% - 2rem));
-    max-width: 100%;
-    padding: 1rem;
-    z-index: 900; /* por debajo del header (1000) */
-}
-
-/* Si el header está presente y .login es un hermano del header, ajustamos para no solaparlo */
-header + .login,
-header ~ .login {
-    left: var(--sidebar-offset);
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: calc(100% - var(--sidebar-offset));
-}
-
-/* Formulario centrado y con límite de ancho/alto */
-.login-form {
-    width: min(560px, 92%);
-    max-height: 80vh;
-    overflow: auto;
+#indice {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
+}
+
+.menu_indice {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    align-items: stretch;
-    margin: 0 auto;
-    padding: 1.25rem;
-    border-radius: 10px;
-    background: var(--bt-surface);
-    box-shadow: 0 6px 20px rgba(46, 42, 38, 0.06);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--bt-bg);
+    transition: all 0.2s ease;
+    padding: 10px;
 }
 
-/* Ajuste en móvil (sidebar más pequeño) */
-@media (max-width: 700px) {
-    .login {
-        width: calc(100% - 1rem);
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    header + .login,
-    header ~ .login {
-        left: var(--sidebar-width-mobile);
-        width: calc(100% - var(--sidebar-width-mobile));
-        transform: translateY(-50%);
-    }
-
-    .site-icon {
-        width: var(--site-icon-size-mobile);
-        height: var(--site-icon-size-mobile);
-        flex: 0 0 var(--site-icon-size-mobile);
-    }
+.menu_indice:hover {
+    background-color: var(--bt-accent);
+    transform: scale(1.1);
 }
 
-/* Estilos minimalistas para inputs dentro del login-form */
-.login-form input[type="text"],
-.login-form input[type="password"],
-.login-form input[type="email"],
-.login-form textarea,
-.login-form select {
+.indice-icon {
     width: 100%;
-    padding: 0.72rem 1rem;
-    border-radius: 12px;
-    border: 1px solid var(--bt-border);
-    background: rgba(255, 255, 255, 0.9); /* ligero contraste sobre la superficie */
+    height: 100%;
+    filter: brightness(0) saturate(100%) invert(14%) sepia(8%) saturate(1067%) hue-rotate(341deg) brightness(97%) contrast(91%);
+}
+
+#redes {
+    margin-top: auto;
+    text-align: center;
     color: var(--bt-text);
-    font-size: 0.95rem;
-    transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
-    outline: none;
-    -webkit-appearance: none;
-    appearance: none;
-    box-shadow: none;
+    font-size: 0.8rem;
+    text-decoration: underline;
+    text-decoration-color: var(--bt-accent);
+    margin-bottom: 1rem;
 }
 
-/* Placeholder y texto secundario */
-.login-form ::placeholder {
-    color: var(--bt-muted);
-    opacity: 1;
-}
+/* ==========================================================================
+   5. FORMULARIOS, INPUTS Y BOTONES (MODALES / GESTOR)
+   ========================================================================== */
 
-/* Estado focus / keyboard navigation */
-.login-form input:focus,
-.login-form textarea:focus,
-.login-form select:focus {
-    border-color: var(--bt-accent-dark);
-    box-shadow: 0 6px 18px rgba(140, 90, 53, 0.06), 0 0 0 6px rgba(196, 122, 59, 0.06); /* suave halo con color de acento */
-    background: #fff;
-}
-
-/* Hover para desktop */
-.login-form input:hover,
-.login-form textarea:hover,
-.login-form select:hover {
-    border-color: rgba(46, 42, 38, 0.18);
-}
-
-/* Error state (si se usa la clase .error en el input) */
-.login-form input.error {
-    border-color: #d9534f;
-    box-shadow: 0 0 0 6px rgba(217, 83, 79, 0.06);
-}
-
-/* Botón de envío: misma geometría, estilo de acento */
-.login-form .button,
-.login-form input[type="submit"] {
-    display: inline-block;
-    width: 100%;
-    padding: 0.72rem 1rem;
+/* Estilo general de los botones */
+.button, input[type="submit"] {
+    background-color: var(--bt-muted);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
     border-radius: 12px;
-    border: 1px solid transparent;
-    background: var(--bt-muted);
-    color: #fff;
-    font-weight: 600;
-    font-size: 0.98rem;
     cursor: pointer;
-    transition: transform 120ms ease, box-shadow 120ms ease, opacity 120ms ease;
-    box-shadow: 0 6px 18px rgba(140, 90, 53, 0.12);
-}
-
-/* Hover / active del botón */
-.login-form .button:hover,
-.login-form input[type="submit"]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(140, 90, 53, 0.14);
-    opacity: 0.98;
-}
-
-.login-form .button:active,
-.login-form input[type="submit"]:active {
-    transform: translateY(0);
-    box-shadow: 0 6px 14px rgba(140, 90, 53, 0.10);
-}
-
-/* Focus visible para accesibilidad */
-.login-form .button:focus-visible,
-.login-form input[type="submit"]:focus-visible {
-    outline: none;
-    box-shadow: 0 6px 22px rgba(140, 90, 53, 0.16), 0 0 0 6px rgba(196, 122, 59, 0.08);
-    border-color: var(--bt-accent-dark);
-}
-
-/* Pequeño ajuste para labels que contienen inputs (mantener separación) */
-.login-form label {
-    display: block;
-    margin-bottom: 0.6rem;
+    font-weight: 600;
     font-size: 0.95rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(143, 124, 107, 0.2);
+}
+
+.button:hover, input[type="submit"]:hover {
+    background-color: var(--bt-accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(143, 124, 107, 0.3);
+}
+
+/* Estilo de los Inputs y Selects */
+input[type="text"], input[type="password"], input[type="email"],
+input[type="number"], textarea, select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--bt-border);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.9);
     color: var(--bt-text);
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    outline: none;
+    margin-top: 0.5rem;
 }
 
-/* Si quieres inputs más "pill" (más redondeados), cambia border-radius a 999px */
-.productos {
-    background-color: #F0E8DD;
-    border-radius: 0.2rem;
-
+input:focus, textarea:focus, select:focus {
+    border-color: var(--bt-accent-dark);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(189, 145, 113, 0.1);
 }
 
-.main-container{
-    /* usar padding completo y luego ajustar el inicio con padding-inline-start para respetar el sidebar */
-    padding: 20px;
-    padding-inline-start: var(--sidebar-offset);
-}
-
-/* Estilos mínimos para el modal */
+/* Modales */
 .modal {
     position: fixed;
     inset: 0;
-    display: none; /* oculto por defecto */
+    display: none;
     align-items: center;
     justify-content: center;
     background: rgba(0,0,0,0.5);
-    z-index: 1100; /* debe quedar por encima del header (header z-index:1000) */
+    z-index: 2000;
+    backdrop-filter: blur(2px);
 }
-.modal.open { display: flex; }
+
 .modal-content {
     background: #fff;
-    padding: 1rem 1.25rem;
-    border-radius: 8px;
-    max-width: 480px;
+    padding: 2.5rem;
+    border-radius: 15px;
     width: 90%;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-    z-index: 1101; /* encima del overlay si fuese necesario */
+    max-width: 450px;
+    position: relative;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
 }
+
+/* FIX: Icono de login del mismo tamaño que el título */
+.modal-title-icon {
+    height: 1em;
+    width: auto;
+    vertical-align: middle;
+    margin-left: 8px;
+}
+
 .modal-close {
-    background: transparent;
-    border: 0;
-    font-size: 1.25rem;
-    float: right;
-    cursor: pointer;
-}
-.form-row { margin-bottom: 0.6rem; }
-.form-row input, .form-row select { width: 100%; padding: 0.45rem; box-sizing: border-box; }
-.actions { display:flex; gap:0.5rem; justify-content:flex-end; margin-top:0.5rem; }
-.button { padding:0.5rem 0.8rem; cursor:pointer; }
-
-.button {
-    background-color: var(--bt-muted);
-    color: white;
-    padding: 12px 24px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
     border: none;
-    border-radius: 8px;
+    font-size: 1.8rem;
     cursor: pointer;
-    font-weight: 600;
-    transition: background 0.3s;
+    color: var(--bt-muted);
 }
 
-/* Centrar elementos de la página de manager: section.container */
+#btn-open-login {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin: 1rem auto;
+    transition: transform 0.2s;
+}
+
+#btn-open-login:hover { transform: scale(1.1); }
+
+/* ==========================================================================
+   6. GESTOR (MANAGER.HTML)
+   ========================================================================== */
+
 .container_manager {
-    max-width: 1100px; /* ancho máximo razonable */
-    margin: 2rem auto; /* centrar horizontalmente y separar del header */
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* centra hijos en eje horizontal */
-    gap: 1rem;
-    box-sizing: border-box;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+    text-align: center;
 }
 
-/* Asegurar que la tabla ocupe el ancho del contenedor centrado */
-.container_manager .table {
+.table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    margin-top: 2rem;
 }
 
-/* Ajuste en móvil: contenedor con menos margen y padding */
-@media (max-width: 700px) {
-    .container_manager {
-        margin: 1rem 0.5rem;
-        padding: 0.75rem;
-    }
+.table th {
+    padding: 1rem;
+    text-align: left;
+    color: var(--bt-muted);
+    font-weight: 600;
+    border-bottom: 2px solid var(--bt-border);
 }
 
+.table td {
+    padding: 1rem;
+    background: white;
+    border-bottom: 1px solid var(--bt-border);
+}
+
+/* Botones de acción circular en la tabla */
 .btn-action {
-    background: #f0f0f0; /* Fondo gris claro circular */
+    background: var(--bt-bg);
     border: none;
     border-radius: 50%;
-    width: 35px;
-    height: 35px;
+    width: 38px;
+    height: 38px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: 0.2s;
     margin: 0 4px;
 }
 
-.btn-action img {
-    display: block;
+.btn-edit:hover { background-color: #d1e7ff; transform: scale(1.1); }
+.btn-delete:hover { background-color: #ffd1d1; transform: scale(1.1); }
+
+/* ==========================================================================
+   7. FOOTER Y REDES SOCIALES
+   ========================================================================== */
+
+.footer {
+    padding: 3rem 1rem;
+    text-align: center;
+    border-top: 2px solid var(--bt-border);
 }
 
-/* Efecto Hover para Editar */
-.btn-edit:hover {
-    background-color: #d1e7ff;
-    transform: translateY(-2px);
-}
-
-/* Efecto Hover para Eliminar (Goma de borrar) */
-.btn-delete:hover {
-    background-color: #ffd1d1;
-    transform: translateY(-2px);
-}
-
-#qrcode {
-    padding: 20px;
-    background: white;
-    border-radius: 10px;
+.redes-sociales-footer {
     display: flex;
+    gap: 1.5rem;
     justify-content: center;
-    align-items: center;
-    margin: 0 auto;
+    margin-top: 1.5rem;
 }
 
-#qrcode img {
-    border: 4px solid white; /* Margen elegante para el QR */
+.icon-redes {
+    width: 30px;
+    height: 30px;
+    filter: brightness(0) saturate(100%) invert(64%) sepia(19%) saturate(740%) hue-rotate(338deg) brightness(91%) contrast(88%);
+    transition: 0.3s ease;
+}
+
+.icon-redes:hover {
+    transform: translateY(-5px);
+    filter: brightness(0) saturate(100%) invert(14%) sepia(8%) saturate(1067%) hue-rotate(341deg) brightness(97%) contrast(91%);
+}
+
+/* ==========================================================================
+   8. RESPONSIVE (DISEÑO MÓVIL)
+   ========================================================================== */
+
+@media (max-width: 700px) {
+    body.body_menu {
+        padding-left: var(--sidebar-width-mobile);
+    }
+
+    header {
+        width: var(--sidebar-width-mobile);
+        padding: 1rem 0.2rem;
+    }
+
+    /* FIX: Título vertical en móvil para ahorrar espacio */
+    .brand .enunciados {
+        font-size: 0.85rem;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        margin-bottom: 1rem;
+        white-space: nowrap;
+        gap: 5px;
+    }
+
+    .main { padding: 1.2rem; }
+
+    h2.title { font-size: 1.7rem; }
+
+    .menu_indice {
+        width: 42px;
+        height: 42px;
+        padding: 10px;
+    }
+
+    #redes { font-size: 0.65rem; }
 }
