@@ -16,9 +16,14 @@ function createProductElement(product) {
   const container = document.createElement('div');
   container.className = 'producto';
 
+  // Cambiamos el h3 para que tenga una estructura que permita los puntos
   const h3 = document.createElement('h3');
-  h3.className = 'productos';
-  h3.innerHTML = `${name}${price ? ` <span class="precio">${price}</span>` : ''}`;
+  h3.className = 'producto-cabecera'; // Nueva clase
+  h3.innerHTML = `
+    <span class="producto-nombre">${name}</span>
+    <span class="producto-puntos"></span>
+    <span class="precio">${price}</span>
+  `;
 
   container.appendChild(h3);
 
