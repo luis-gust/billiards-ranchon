@@ -1,5 +1,4 @@
 import { db } from './supabase.js';
-
 // Selecciones DOM para las secciones del menú
 const tapasEl = document.getElementById('tapas');
 const bebidasEl = document.getElementById('bebidas');
@@ -105,17 +104,36 @@ function setupLoginModal() {
   }
 }
 
+// MODIFICACIÓN PARA DIAGNÓSTICO
 document.addEventListener('DOMContentLoaded', async () => {
+  console.log("1. El navegador terminó de cargar el HTML.");
+
   try {
+    console.log("2. Intentando llamar a db.getProductos()...");
     const productos = await db.getProductos();
+
+    console.log("3. Respuesta de Supabase recibida:");
+    console.table(productos); // Esto mostrará una tabla bonita en la consola con tus datos
+
+    if (!productos || productos.length === 0) {
+      console.warn("⚠️ Atención: La lista de productos llegó vacía. Revisa si tienes datos en la tabla o si el RLS (Políticas) está bloqueando el acceso.");
+    } else {
+      console.log(`✅ Éxito: Se recibieron ${productos.length} productos.`);
+    }
+
+    // Llamamos a la función original para pintar el menú
     updateSections(productos);
 
+    // Configuramos el tiempo real
     db.onProductosChanged((nuevosProductos) => {
+      console.log("🔄 Cambio detectado en la base de datos. Actualizando...");
       updateSections(nuevosProductos);
     });
 
     setupLoginModal();
+
   } catch (err) {
-    console.error('Error al inicializar menú:', err);
+    console.error("❌ Error crítico al conectar con Supabase:");
+    console.error(err);
   }
 });
