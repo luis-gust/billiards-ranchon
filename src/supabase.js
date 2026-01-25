@@ -3,7 +3,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 // Copia estos valores desde Settings -> API en tu panel de Supabase
 const supabaseUrl = 'https://jgqcqrcvtmaqpsajhcfz.supabase.co';
-const supabaseKey = 'sb_publishable_v2yqGRS1MqI4p7Im3nf4tg_9NC5nwaE';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpncWNxcmN2dG1hcXBzYWpoY2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkyODgxMjAsImV4cCI6MjA4NDg2NDEyMH0.GIUjeg7GykFrl7EyZZMGyEPcwrqE8a7Uv2HkvC92sMM';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export const db = {
