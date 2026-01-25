@@ -104,20 +104,17 @@ function setupLoginModal() {
   }
 }
 
-// MODIFICACIÓN PARA DIAGNÓSTICO
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log("1. El navegador terminó de cargar el HTML.");
-
   try {
-    console.log("2. Llamando a db.getProductos()...");
     const productos = await db.getProductos();
-
-    console.log("3. Respuesta recibida:", productos);
     updateSections(productos);
+
+    db.onProductosChanged((nuevosProductos) => {
+      updateSections(nuevosProductos);
+    });
+
+    setupLoginModal();
   } catch (err) {
-    // ESTO ES LO QUE NECESITO QUE ME DIGAS
-    console.error("❌ ERROR DETECTADO:");
-    console.error("Mensaje:", err.message);
-    console.error("Detalles:", err);
+    console.error('Error al inicializar:', err);
   }
 });
