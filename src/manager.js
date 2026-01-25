@@ -2,6 +2,7 @@ import { db } from './supabase.js';
 
 let idAEliminar = null;
 
+// Elementos del DOM
 const btnOpenAdd = document.getElementById('btn-open-add');
 const modalForm = document.getElementById('modal-form');
 const formInsert = document.getElementById('form-insert');
@@ -11,7 +12,10 @@ const tablaBebidas = document.querySelector('#bebidas');
 const tablaPostres = document.querySelector('#postres');
 
 function renderTable(productos) {
-    [tablaTapas, tablaBebidas, tablaPostres].forEach(t => t.innerHTML = '');
+    // Limpiar tablas
+    [tablaTapas, tablaBebidas, tablaPostres].forEach(t => {
+        if (t) t.innerHTML = '';
+    });
 
     productos.forEach(p => {
         const row = document.createElement('tr');
@@ -30,69 +34,74 @@ function renderTable(productos) {
             </td>
         `;
 
-        const tipo = p.tipo?.toLowerCase();
+        const tipo = p.tipo?.toLowerCase().trim();
         if (tipo === 'tapas') tablaTapas.appendChild(row);
         else if (tipo === 'bebidas') tablaBebidas.appendChild(row);
         else if (tipo === 'postres') tablaPostres.appendChild(row);
     });
-
-    document.querySelectorAll('.btn-edit').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const id = btn.getAttribute('data-id');
-            const p = productos.find(prod => String(prod.id) === String(id));
-            if (p) openEditModal(p);
-        });
-    });
-
-    document.querySelectorAll('.btn-delete').forEach(btn => {
-        btn.addEventListener('click', () => {
-            idAEliminar = btn.getAttribute('data-id');
-            modalDelete.style.display = 'flex';
-        });
-    });
-}
-
-function openEditModal(p) {
-    document.getElementById('editing_id').value = p.id;
-    document.getElementById('input_name').value = p.nombre;
-    document.getElementById('input_des').value = p.descripcion || '';
-    document.getElementById('input_pre').value = p.precio;
-    document.getElementById('producto_tipo').value = p.tipo;
-    document.getElementById('modal-title').textContent = 'Editar producto';
-    modalForm.style.display = 'flex';
 }
 
 function setupEventListeners() {
+    // ABRIR FORMULARIO (Agregar)
     btnOpenAdd.addEventListener('click', () => {
         formInsert.reset();
         document.getElementById('editing_id').value = '';
-        document.getElementById('modal-title').textContent = 'Agregar Producto';
+        document.getElementById('modal-title').innerText = 'Agregar Producto';
         modalForm.style.display = 'flex';
     });
 
-    document.querySelectorAll('#modal-form-close, #modal-form-cancel').forEach(btn => {
-        btn.addEventListener('click', () => modalForm.style.display = 'none');
+    // CERRAR FORMULARIO (Botón X y Cancelar)
+    document.querySelectorAll('#modal-form-close, #btn-cancel').forEach(btn => {
+        btn.addEventListener('click', () => {
+            modalForm.style.display = 'none';
+        });
     });
 
+    // GUARDAR / EDITAR PRODUCTO
     formInsert.addEventListener('submit', async (e) => {
         e.preventDefault();
         const id = document.getElementById('editing_id').value;
-        const datos = {
-            nombre: document.getElementById('input_name').value,
-            descripcion: document.getElementById('input_des').value,
-            precio: parseFloat(document.getElementById('input_pre').value),
-            tipo: document.getElementById('producto_tipo').value
+        const producto = {
+            nombre: formInsert.nombre.value,
+            descripcion: formInsert.descripcion.value,
+            precio: parseFloat(formInsert.precio.value),
+            tipo: formInsert.tipo.value
         };
 
         try {
-            if (id) await db.updateProducto(id, datos);
-            else await db.addProducto(datos);
+            if (id) {
+                await db.updateProducto(id, producto);
+            } else {
+                await db.addProducto(producto);
+            }
             modalForm.style.display = 'none';
+            formInsert.reset();
         } catch (err) {
             alert('Error al guardar el producto');
         }
     });
 
+    // CLIC EN TABLA (Editar o Eliminar)
+    document.body.addEventListener('click', (e) => {
+        const btnEdit = e.target.closest('.btn-edit');
+        const btnDelete = e.target.closest('.btn-delete');
+
+        if (btnEdit) {
+            const id = btnEdit.dataset.id;
+            // Aquí deberías buscar el producto en tu estado actual para rellenar el form
+            // Por brevedad, este es el trigger para abrir el modal:
+            document.getElementById('editing_id').value = id;
+            document.getElementById('modal-title').innerText = 'Editar Producto';
+            modalForm.style.display = 'flex';
+        }
+
+        if (btnDelete) {
+            idAEliminar = btnDelete.dataset.id;
+            modalDelete.style.display = 'flex';
+        }
+    });
+
+    // ELIMINAR (Confirmar y Cancelar)
     document.getElementById('modal-delete-confirm').addEventListener('click', async () => {
         if (idAEliminar) {
             try {
@@ -110,22 +119,28 @@ function setupEventListeners() {
         idAEliminar = null;
     });
 
-    // Lógica del QR
+    // LÓGICA DEL QR
     const btnGenQR = document.getElementById('btn-gen-qr');
     const modalQR = document.getElementById('modal-qr');
     const qrContainer = document.getElementById('qrcode');
 
-    btnGenQR.addEventListener('click', () => {
-        modalQR.style.display = 'flex';
-        qrContainer.innerHTML = "";
-        new QRCode(qrContainer, {
-            text: "https://bar-menu-ddb1b.web.app", // Actualizar con tu URL final
-            width: 250, height: 250
+    if (btnGenQR) {
+        btnGenQR.addEventListener('click', () => {
+            modalQR.style.display = 'flex';
+            qrContainer.innerHTML = "";
+            new QRCode(qrContainer, {
+                text: "https://luis-gust.github.io/billiards-ranchon/",
+                width: 250,
+                height: 250
+            });
         });
-    });
+    }
 
+    // CERRAR QR
     document.querySelectorAll('#modal-qr-close, #modal-qr-cancel').forEach(btn => {
-        btn.addEventListener('click', () => modalQR.style.display = 'none');
+        btn.addEventListener('click', () => {
+            modalQR.style.display = 'none';
+        });
     });
 }
 
@@ -135,8 +150,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderTable(productos);
         db.onProductosChanged(renderTable);
         setupEventListeners();
-        document.getElementById('year').textContent = new Date().getFullYear();
     } catch (err) {
-        console.error('Error inicializando manager:', err);
+        console.error('Error al cargar manager:', err);
     }
 });
