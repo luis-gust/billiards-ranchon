@@ -1,5 +1,5 @@
 // Archivo: public/src/supabase.js
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js'
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.1/+esm'
 // Copia estos valores desde Settings -> API en tu panel de Supabase
 const supabaseUrl = 'https://jgqcqrcvtmaqpsajhcfz.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpncWNxcmN2dG1hcXBzYWpoY2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkyODgxMjAsImV4cCI6MjA4NDg2NDEyMH0.GIUjeg7GykFrl7EyZZMGyEPcwrqE8a7Uv2HkvC92sMM';
