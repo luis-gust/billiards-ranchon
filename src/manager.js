@@ -10,7 +10,7 @@ const modalQR = document.getElementById('modal-qr');
 
 // DIBUJAR TABLA
 function renderTable(productos) {
-    productosActuales = productos; // Actualizamos la "memoria" local
+    productosActuales = productos;
     const tablas = {
         tapas: document.querySelector('#tapas'),
         bebidas: document.querySelector('#bebidas'),
@@ -33,6 +33,11 @@ function renderTable(productos) {
         `;
         const tipo = p.tipo?.toLowerCase().trim();
         if (tablas[tipo]) tablas[tipo].appendChild(row);
+        statsConteoCategorias();
+        statsRangoPrecios();
+        statsCalidadDescripciones();
+        statsAsequibilidad();
+        statsPalabrasClave();
     });
 }
 
@@ -133,3 +138,81 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error("Error:", err);
     }
 });
+
+function statsConteoCategorias() {
+    const conteo = { tapas: 0, bebidas: 0, postres: 0 };
+    productosActuales.forEach(p => {
+        const tipo = p.tipo?.toLowerCase();
+        if (conteo.hasOwnProperty(tipo)) conteo[tipo]++;
+    });
+
+    document.getElementById('stat-conteo').innerHTML = `
+        <div class="stat-card"><span>Tapas:</span> <strong>${conteo.tapas}</strong></div>
+        <div class="stat-card"><span>Bebidas:</span> <strong>${conteo.bebidas}</strong></div>
+        <div class="stat-card"><span>Postres:</span> <strong>${conteo.postres}</strong></div>
+    `;
+}
+
+function statsRangoPrecios() {
+    const precios = productosActuales.map(p => parseFloat(p.precio));
+    const max = Math.max(...precios);
+    const min = Math.min(...precios);
+    const avg = precios.reduce((a, b) => a + b, 0) / precios.length;
+
+    document.getElementById('stat-precios').innerHTML = `
+        <div class="stat-card"><span>Máximo:</span> <strong>$${max.toFixed(2)}</strong></div>
+        <div class="stat-card"><span>Mínimo:</span> <strong>$${min.toFixed(2)}</strong></div>
+        <div class="stat-card"><span>Promedio:</span> <strong>$${avg.toFixed(2)}</strong></div>
+    `;
+}
+
+function statsCalidadDescripciones() {
+    const total = productosActuales.length;
+    const conDesc = productosActuales.filter(p => p.descripcion && p.descripcion.trim() !== "").length;
+    const porcentaje = ((conDesc / total) * 100).toFixed(0);
+
+    document.getElementById('stat-calidad').innerHTML = `
+        <div class="stat-progress-bar">
+            <div class="progress" style="width: ${porcentaje}%"></div>
+        </div>
+        <p>${porcentaje}% de productos tienen descripción completa.</p>
+    `;
+}
+
+function statsAsequibilidad() {
+    const rangos = { economico: 0, medio: 0, premium: 0 };
+    productosActuales.forEach(p => {
+        const precio = parseFloat(p.precio);
+        if (precio < 10) rangos.economico++;
+        else if (precio <= 25) rangos.medio++;
+        else rangos.premium++;
+    });
+
+    document.getElementById('stat-asequibilidad').innerHTML = `
+        <ul class="stat-list">
+            <li>Económicos (<$10): <strong>${rangos.economico}</strong></li>
+            <li>Medios ($10-$25): <strong>${rangos.medio}</strong></li>
+            <li>Premium (>$25): <strong>${rangos.premium}</strong></li>
+        </ul>
+    `;
+}
+
+function statsPalabrasClave() {
+    const palabrasInteres = ["fresco", "cubano", "casero", "picante", "frío", "especial"];
+    const resultados = {};
+
+    palabrasInteres.forEach(palabra => {
+        const count = productosActuales.filter(p =>
+            p.descripcion?.toLowerCase().includes(palabra) ||
+            p.nombre?.toLowerCase().includes(palabra)
+        ).length;
+        if(count > 0) resultados[palabra] = count;
+    });
+
+    let html = '<div class="tags-container">';
+    for (const [word, count] of Object.entries(resultados)) {
+        html += `<span class="tag">${word} (${count})</span>`;
+    }
+    html += '</div>';
+    document.getElementById('stat-keywords').innerHTML = html;
+}
