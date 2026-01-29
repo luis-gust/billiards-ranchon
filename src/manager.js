@@ -183,16 +183,16 @@ function statsAsequibilidad() {
     const rangos = { economico: 0, medio: 0, premium: 0 };
     productosActuales.forEach(p => {
         const precio = parseFloat(p.precio);
-        if (precio < 10) rangos.economico++;
-        else if (precio <= 25) rangos.medio++;
+        if (precio < 500) rangos.economico++;
+        else if (precio <= 1000) rangos.medio++;
         else rangos.premium++;
     });
 
     document.getElementById('stat-asequibilidad').innerHTML = `
         <ul class="stat-list">
-            <li>Económicos (<$10): <strong>${rangos.economico}</strong></li>
-            <li>Medios ($10-$25): <strong>${rangos.medio}</strong></li>
-            <li>Premium (>$25): <strong>${rangos.premium}</strong></li>
+            <li>Económicos : <strong>${rangos.economico}</strong></li>
+            <li>Medios : <strong>${rangos.medio}</strong></li>
+            <li>Premium : <strong>${rangos.premium}</strong></li>
         </ul>
     `;
 }
