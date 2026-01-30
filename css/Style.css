@@ -75,10 +75,12 @@ header {
 }
 
 .main {
-    padding: 2rem;
     background: var(--bt-surface);
     min-height: 100vh;
     border-left: 1px solid var(--bt-border);
+}
+.section_menu{
+    padding: 2rem;
 }
 
 /* ==========================================================================
@@ -380,7 +382,7 @@ input:focus, textarea:focus, select:focus {
         gap: 5px;
     }
 
-    .main { padding: 1.2rem; }
+    .section_menu { padding: 1.2rem; }
 
     h2.title { font-size: 1.7rem; }
 
@@ -391,6 +393,19 @@ input:focus, textarea:focus, select:focus {
     }
 
     #redes { font-size: 0.65rem; }
+    .main-waves-container {
+        height: 80px; /* Reducimos un poco la altura total para que no ocupe media pantalla */
+        margin-top: -10px;
+        margin-bottom: 1rem;
+    }
+
+    .main-waves-container svg {
+        /* Aumentamos el scaleY para que las ondas recuperen su forma
+           y el scaleX para que el movimiento lateral no deje espacios en blanco
+        */
+        transform: scaleY(2.5) scaleX(3);
+        transform-origin: top; /* Asegura que se estiren hacia abajo */
+    }
 }
 
 /* ==========================================================================
@@ -461,3 +476,30 @@ input:focus, textarea:focus, select:focus {
 }
 
 .stat-list li { margin-bottom: 5px; }
+
+/* ==========================================================================
+   ANIMACIÓN DE OLAS PARA EL CUERPO PRINCIPAL (MAIN)
+   ========================================================================== */
+
+.main-waves-container {
+    width: 100%;
+    height: 120px; /* Altura de la sección de las olas */
+    overflow: hidden;
+    position: relative;
+    margin-top: -20px; /* Sube un poco para pegarse al elemento anterior si es necesario */
+    margin-bottom: 2rem;
+    pointer-events: none; /* Permite hacer click a través de ellas */
+}
+
+.main-waves-container svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    transform: scaleX(1.5); /* Las hace un poco más anchas para que el movimiento no se corte */
+}
+
+/* Opcional: Si quieres que el título de la sección se vea mejor */
+.tapas h2, .bebidas h2, .postres h2 {
+    position: relative;
+    z-index: 5;
+}

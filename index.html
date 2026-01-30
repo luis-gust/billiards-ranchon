@@ -30,18 +30,38 @@
     <a id="redes" href="#footer">Redes Sociales</a>
 </header>
 <div class="main">
-    <section id="tapas" class="tapas">
-    </section>
-    <section id="bebidas" class="bebidas">
-    </section>
-    <section id="postres" class="postres">
-    </section>
+    <div class="main-waves-container">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 200" preserveAspectRatio="none">
+            <defs>
+                <path id="wave-main" fill="rgba(189, 145, 113, 0.5)"
+                      d="M-363.852,100c0,0,236.988-80,505.475,0
+                    s371.981,80,575.971,0s293.985-80,505.474,10s493.475,80,716.963-10v200H-363.852V100z" />
+            </defs>
+            <g transform="rotate(180, 800, 100)"> <use href="#wave-main" opacity=".3">
+                <animateTransform attributeName="transform" type="translate" dur="12s" values="300 0; -300 0; 300 0" repeatCount="indefinite" />
+            </use>
+                <use href="#wave-main" opacity=".6">
+                    <animateTransform attributeName="transform" type="translate" dur="9s" values="200 0; -250 0; 200 0" repeatCount="indefinite" />
+                </use>
+                <use href="#wave-main" opacity=".9">
+                    <animateTransform attributeName="transform" type="translate" dur="6s" values="-150 0; 150 0; -150 0" repeatCount="indefinite" />
+                </use>
+            </g>
+        </svg>
+    </div>
+<div class="section_menu">
+    <section id="tapas" class="tapas"></section>
+    <section id="bebidas" class="bebidas"></section>
+    <section id="postres" class="postres"></section>
+</div>
 </div>
 <footer id="footer" class="footer">
     <h2 class="title">Gracias por su visita!!</h2>
 
-    <p class="especificaciones">Mólvil para contactar, haga sus reservaciones aquí:</p>
+    <p class="especificaciones">Mólviles para contactar, haga sus reservaciones aquí:</p>
     <h3 class="productos"><img src="img/phone-svgrepo-com.svg" alt="Teléfono" class="icon-phone" /> +53 59670883</h3>
+    <h3 class="productos"><img src="img/phone-svgrepo-com.svg" alt="Teléfono" class="icon-phone" /> +53 54407158</h3>
+
 
 
     <nav class="redes-sociales-footer">
